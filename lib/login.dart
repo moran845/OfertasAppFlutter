@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'RegisterPage.dart';
 import 'main.dart'; // Importa la pantalla principal
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:another_flushbar/flushbar.dart';
 
 void main() {
   runApp(const Login());
@@ -32,18 +33,18 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>(); // Para la validación
+  final _formKey = GlobalKey<FormState>(); 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightGreen, // Fondo verde menta
+      backgroundColor: Colors.lightGreen, 
       body: Padding(
         padding: const EdgeInsets.all(45.0),
         child: Center(
           child: SingleChildScrollView(
             child: Form(
-              key: _formKey, // Clave del formulario para validación
+              key: _formKey, 
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -110,23 +111,35 @@ class _LoginPageState extends State<LoginPage> {
                             email: email,
                             password: password,
                           );
+                          Flushbar(
+                            title: 'Inicio de sesión correcto',
+                            message: 'Has iniciado sesión exitosamente.',
+                            duration: Duration(seconds: 3),
+                            backgroundColor: Colors.green,
+                            flushbarPosition: FlushbarPosition.TOP,
 
-                          // Redirige a la pantalla principal
+                          )..show(context);
+
+
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (context) => const MyApp()),
                           );
                         } catch (e) {
-                          // Manejo de errores
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Error al iniciar sesión: $e')),
-                          );
+
+                          Flushbar(
+                            title: 'Error al iniciar sesión',
+                            message: e.toString(),
+                            duration: Duration(seconds: 3),
+                            backgroundColor: Colors.red,
+                            flushbarPosition: FlushbarPosition.TOP,
+                          )..show(context);
                         }
                       }
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(double.maxFinite, 50),
-                      backgroundColor: Colors.green[600], // Color del botón
+                      backgroundColor: Colors.green[600], 
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -134,8 +147,8 @@ class _LoginPageState extends State<LoginPage> {
                     child: const Text(
                       'INGRESAR',
                       style: TextStyle(
-                        color: Colors.white, // Cambia el color del texto del botón
-                        fontSize: 18, // Puedes ajustar el tamaño si lo prefieres
+                        color: Colors.white, 
+                        fontSize: 18, 
                       ),
                     ),
                   ),
@@ -163,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pop(context); // Regresa a la pantalla anterior
+                      Navigator.pop(context); 
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(double.infinity, 50),
